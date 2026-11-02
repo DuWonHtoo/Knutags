@@ -147,7 +147,7 @@ npm run dev
 
 ## Maintenance
 
-- **Updating the app:** commit and push to GitHub. Vercel deploys automatically.
+- **Updating the app:** commit and push to the `main` branch on GitHub. Vercel is connected to the repository and deploys every push to production automatically (about 2 minutes). Check progress under Vercel → Project → **Deployments**.
 - **Backups:** Supabase Pro makes daily backups. Also keep the exported batch CSVs; they're your record of which IDs exist.
 - **Changing the admin password:** edit `ADMIN_PASSWORD` in Vercel → Redeploy. To log out every device, also change `SESSION_SECRET`.
 - **Logs:** Vercel → Project → **Logs** shows errors from the server.
