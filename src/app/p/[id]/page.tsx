@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import type { ReactNode } from 'react';
 import { KarenFlag } from '@/components/KarenFlag';
 import { TagMessage } from '@/components/TagMessage';
 import { NAME_KEY, PHOTO_KEY, PROFILE_FIELDS, fieldHref, prettyUrl, type ProfileField } from '@/lib/fields';
@@ -53,64 +52,29 @@ function initials(name: string): string {
     .join('');
 }
 
-// Outline icons (24×24, stroke = currentColor). Always shown next to a visible text label.
-const ICON_PATHS: Record<string, ReactNode> = {
-  phone: (
-    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
-  ),
-  email: (
-    <>
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m3 7 9 6 9-6" />
-    </>
-  ),
-};
+const focusRing = 'focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-knu-blue';
 
-function Icon({ name, className = 'h-5 w-5' }: { name: keyof typeof ICON_PATHS; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      {ICON_PATHS[name]}
-    </svg>
-  );
-}
-
-const focusRing =
-  'focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-knu-blue';
-
+/** One detail line: label above value. Tappable values are blue instead of carrying an arrow. */
 function DetailRow({ field, value }: { field: ProfileField; value: string }) {
   const href = fieldHref(field.type, value);
-  const content = (
-    <>
-      <span className="min-w-0">
-        <span className="block text-[13px] leading-tight text-slate-500">{field.label}</span>
-        <span className="block font-semibold [overflow-wrap:anywhere] text-slate-900">
-          {field.type === 'url' ? prettyUrl(value) : value}
-        </span>
-      </span>
-    </>
-  );
-  const rowClass = 'flex min-h-14 items-center gap-3.5 rounded-xl p-2';
-  if (!href) return <div className={rowClass}>{content}</div>;
+  const text = field.type === 'url' ? prettyUrl(value) : value;
   return (
-    <a
-      href={href}
-      className={`${rowClass} transition-colors hover:bg-knu-tint ${focusRing}`}
-      {...(field.type === 'url' ? { target: '_blank', rel: 'noopener noreferrer nofollow' } : {})}
-    >
-      {content}
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="ml-auto h-[18px] w-[18px] flex-none text-slate-400">
-        <path d="m9 6 6 6-6 6" />
-      </svg>
-    </a>
+    <div className="border-b border-knu-line px-5 py-3">
+      <dt className="text-sm text-slate-500">{field.label}</dt>
+      <dd className="mt-0.5 [overflow-wrap:anywhere]">
+        {href ? (
+          <a
+            href={href}
+            className={`font-semibold text-knu-blue underline decoration-knu-blue/25 underline-offset-4 hover:decoration-knu-blue ${focusRing}`}
+            {...(field.type === 'url' ? { target: '_blank', rel: 'noopener noreferrer nofollow' } : {})}
+          >
+            {text}
+          </a>
+        ) : (
+          <span className="font-semibold text-slate-900">{text}</span>
+        )}
+      </dd>
+    </div>
   );
 }
 
@@ -157,107 +121,92 @@ export default async function ProfilePage({ params }: Props) {
   const name = showName ? person.full_name : 'Profile';
 
   const actions = [
-    phoneHref ? { href: phoneHref, label: 'Call', icon: 'phone' as const, primary: true } : null,
-    emailHref ? { href: emailHref, label: 'Email', icon: 'email' as const, primary: !phoneHref } : null,
+    phoneHref ? { href: phoneHref, label: 'Call', primary: true } : null,
+    emailHref ? { href: emailHref, label: 'Email', primary: !phoneHref } : null,
   ].filter((a) => a !== null);
 
   return (
     <>
       {admin ? <AdminBar id={id} status={status} /> : null}
-      <main className="min-h-dvh bg-knu-bg px-4 pt-[max(16px,env(safe-area-inset-top))] pb-[max(24px,env(safe-area-inset-bottom))]">
-        <div className="mx-auto max-w-[420px]">
-          <article
-            aria-labelledby="name"
-            className="overflow-hidden rounded-[20px] bg-white shadow-[0_1px_2px_rgba(15,23,42,.06),0_8px_24px_rgba(26,59,133,.08)]"
-          >
-            {/* Karen flag behind the profile, shown in full */}
-            <div aria-hidden="true" className="relative aspect-[9/5] overflow-hidden">
-              <KarenFlag decorative className="absolute inset-0 h-full w-full" />
+      <main className="min-h-dvh bg-white pb-[max(32px,env(safe-area-inset-bottom))]">
+        <article aria-labelledby="name" className="mx-auto max-w-[480px]">
+          {/* Karen flag across the full width, shown in full */}
+          <div aria-hidden="true" className="relative aspect-[9/5] overflow-hidden">
+            <KarenFlag decorative className="absolute inset-0 h-full w-full" />
+          </div>
+
+          <header className="px-5">
+            <div className="relative z-[1] -mt-14 h-28 w-28 overflow-hidden rounded-full border-4 border-white bg-knu-tint">
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt={showName ? `Photo of ${person.full_name}` : 'Profile photo'}
+                  width={112}
+                  height={112}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div aria-hidden="true" className="flex h-full w-full items-center justify-center font-heading text-3xl font-semibold text-knu-blue/60">
+                  {showName ? initials(person.full_name) : '•'}
+                </div>
+              )}
             </div>
 
-            <div className="px-5 pb-5 text-center">
-              <div className="relative z-[1] mx-auto -mt-[60px] h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-white bg-knu-tint">
-                {photoUrl ? (
-                  <img
-                    src={photoUrl}
-                    alt={showName ? `Photo of ${person.full_name}` : 'Profile photo'}
-                    width={120}
-                    height={120}
-                    fetchPriority="high"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div aria-hidden="true" className="flex h-full w-full items-center justify-center font-heading text-4xl font-semibold text-knu-blue/60">
-                    {showName ? initials(person.full_name) : '•'}
-                  </div>
-                )}
-              </div>
+            {rank ? (
+              <p className="mt-4 font-heading text-[15px] font-semibold text-knu-blue">
+                <span className="sr-only">Rank: </span>
+                {rank}
+              </p>
+            ) : null}
+            <h1
+              id="name"
+              className={`${rank ? 'mt-0.5' : 'mt-4'} font-heading text-[1.75rem] leading-tight font-semibold tracking-[-0.01em] text-balance text-slate-900`}
+            >
+              {name}
+            </h1>
+            {title ? <p className="mt-1 text-slate-600">{title}</p> : null}
+            {organization ? <p className="text-slate-600">{organization}</p> : null}
 
-              {rank ? (
-                <p className="mt-3.5 inline-flex items-center gap-1.5 rounded-full bg-knu-tint py-[5px] pr-3 pl-2.5 font-heading text-xs font-semibold tracking-[.08em] text-knu-blue uppercase">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5 flex-none">
-                    <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
-                  </svg>
-                  <span className="sr-only">Rank: </span>
-                  {rank}
-                </p>
-              ) : null}
-
-              <h1
-                id="name"
-                className={`${rank ? 'mt-2' : 'mt-3.5'} font-heading text-[1.625rem] leading-tight font-semibold tracking-[-0.01em] text-balance text-slate-900`}
-              >
-                {name}
-              </h1>
-              {title ? <p className="mt-1 text-slate-600">{title}</p> : null}
-              {organization ? <p className="mt-0.5 font-semibold text-knu-blue">{organization}</p> : null}
-            </div>
+            <p className="mt-3 text-sm text-slate-500">
+              ID <span className="ml-1 font-mono text-[15px] font-semibold tracking-[.06em] text-slate-900">{id}</span>
+            </p>
 
             {actions.length ? (
-              <nav aria-label={`Contact ${name}`} className={`grid gap-2 px-5 pb-5 ${actions.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+              <nav aria-label={`Contact ${name}`} className={`mt-5 grid gap-2 ${actions.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                 {actions.map((action) => (
                   <a
                     key={action.label}
                     href={action.href}
-                    className={`flex min-h-16 flex-col items-center justify-center gap-1 rounded-[14px] text-sm font-semibold transition-[background-color,transform] duration-200 active:scale-[.97] motion-reduce:transition-none ${focusRing} ${
+                    className={`flex h-12 items-center justify-center rounded-lg text-[15px] font-semibold transition-colors ${focusRing} ${
                       action.primary
                         ? 'bg-knu-blue text-white hover:bg-knu-blue-dark'
-                        : 'bg-knu-tint text-knu-blue hover:bg-[#e2e9f7]'
+                        : 'border border-knu-blue text-knu-blue hover:bg-knu-tint'
                     }`}
                   >
-                    <Icon name={action.icon} className="h-[22px] w-[22px]" />
                     {action.label}
                   </a>
                 ))}
               </nav>
             ) : null}
+          </header>
 
-            {rows.length ? (
-              <div className="border-t border-knu-line px-3 py-2">
-                {rows.map((field) => (
-                  <DetailRow key={field.key} field={field} value={value(field.key)} />
-                ))}
-              </div>
-            ) : null}
+          {rows.length ? (
+            <dl className="mt-6 border-t border-knu-line">
+              {rows.map((field) => (
+                <DetailRow key={field.key} field={field} value={value(field.key)} />
+              ))}
+            </dl>
+          ) : null}
 
-            {paragraphs.map((field) => (
-              <section key={field.key} className="border-t border-knu-line px-5 pt-4 pb-5">
-                <h2 className="mb-2 font-heading text-[13px] font-semibold tracking-[.06em] text-slate-500 uppercase">
-                  {field.label}
-                </h2>
-                <p className="whitespace-pre-line text-slate-900">{value(field.key)}</p>
-              </section>
-            ))}
-          </article>
-
-          <footer className="mt-[18px] flex items-center justify-center gap-1.5 text-[13px] text-slate-500">
-            <KarenFlag className="h-[15px] w-[27px] rounded-[2px] shadow-[0_0_0_1px_#e3e8f2]" />
-            <span>
-              ID <span className="font-mono tracking-[.04em]">{id}</span>
-            </span>
-          </footer>
-        </div>
+          {paragraphs.map((field) => (
+            <section key={field.key} className="px-5 pt-5">
+              <h2 className="text-sm text-slate-500">{field.label}</h2>
+              <p className="mt-1 whitespace-pre-line text-slate-900">{value(field.key)}</p>
+            </section>
+          ))}
+        </article>
       </main>
     </>
   );
