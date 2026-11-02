@@ -4,21 +4,21 @@ import type { TagStatus } from '@/lib/types';
 // Shared class names. Inputs use text-base (16px) so iOS Safari doesn't zoom in.
 const btnBase =
   'inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50';
-export const btnPrimary = `${btnBase} bg-slate-900 text-white hover:bg-slate-700`;
+export const btnPrimary = `${btnBase} bg-knu-blue text-white hover:bg-knu-blue-dark`;
 export const btnSecondary = `${btnBase} bg-white text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50`;
 export const btnDanger = `${btnBase} bg-red-600 text-white hover:bg-red-500`;
 export const btnSmall =
   'inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-xs font-semibold ring-1 ring-inset ring-slate-300 bg-white hover:bg-slate-50';
 export const inputClass =
-  'block w-full rounded-lg border-0 bg-white px-3 py-2.5 text-base text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900';
+  'block w-full rounded-lg border-0 bg-white px-3 py-2.5 text-base text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-knu-blue';
 export const labelClass = 'mb-1 block text-sm font-medium text-slate-700';
-export const linkClass = 'font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-900';
+export const linkClass = 'font-medium text-knu-blue underline decoration-knu-blue/30 underline-offset-2 hover:decoration-knu-blue';
 
 export function PageHeader({ title, subtitle, actions }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
-        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+        <h1 className="font-heading text-2xl font-semibold tracking-tight">{title}</h1>
         {subtitle ? <p className="mt-1 text-sm text-slate-500">{subtitle}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}

@@ -58,7 +58,7 @@ async function shrinkImage(file: File): Promise<Blob> {
 function VisibilityToggle({ field, defaultChecked }: { field: string; defaultChecked: boolean }) {
   return (
     <label className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-xs font-medium text-slate-600">
-      <input type="checkbox" name="public" value={field} defaultChecked={defaultChecked} className="h-4 w-4 accent-slate-900" />
+      <input type="checkbox" name="public" value={field} defaultChecked={defaultChecked} className="h-4 w-4 accent-knu-blue" />
       Public
     </label>
   );
@@ -163,7 +163,7 @@ export function PersonForm({
               name="photo_picker"
               accept="image/*"
               onChange={onPhotoChange}
-              className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
+              className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-knu-blue file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
             />
             {processing ? <p className="text-xs text-slate-500">Preparing photo…</p> : null}
             {photoError ? <p className="text-xs text-red-700">{photoError}</p> : null}
@@ -221,7 +221,21 @@ export function PersonForm({
               </label>
               <VisibilityToggle field={field.key} defaultChecked={visible.has(field.key)} />
             </div>
-            {field.type === 'textarea' ? (
+            {field.type === 'select' ? (
+              <select
+                id={id}
+                name={id}
+                defaultValue={initial?.details[field.key] ?? ''}
+                className={inputClass}
+              >
+                <option value="">— No {field.label.toLowerCase()} —</option>
+                {field.options?.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            ) : field.type === 'textarea' ? (
               <textarea {...common} rows={3} />
             ) : (
               <input

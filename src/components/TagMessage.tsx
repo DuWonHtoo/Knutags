@@ -37,11 +37,11 @@ export function TagMessage({ kind, children }: { kind: Kind; children?: ReactNod
     <main className="flex min-h-dvh flex-col items-center justify-center px-6 py-12 text-center">
       <div
         aria-hidden
-        className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-2xl font-semibold text-slate-600"
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-knu-tint text-2xl font-semibold text-knu-blue"
       >
         {c.icon}
       </div>
-      <h1 className="mt-5 text-xl font-semibold">{c.title}</h1>
+      <h1 className="mt-5 font-heading text-xl font-semibold">{c.title}</h1>
       <p className="mt-2 max-w-xs text-sm text-slate-500">{c.text}</p>
       {children}
     </main>

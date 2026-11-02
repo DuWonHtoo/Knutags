@@ -61,7 +61,7 @@ function downloadTemplate() {
     website: 'example.com',
     location: 'Springfield',
     bio: 'Leave tag_id empty to create the person without a tag.',
-    emergency_contact: 'John Example (spouse) +1 555 0101',
+    rank: 'Captain',
     public: DEFAULT_PUBLIC_FIELDS.join('|'),
     admin_notes: 'Only admins see this',
   };

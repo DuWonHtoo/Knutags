@@ -11,7 +11,7 @@ export default function AdminError({ error, reset }: { error: Error & { digest?:
       <button
         type="button"
         onClick={reset}
-        className="mt-4 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white"
+        className="mt-4 rounded-lg bg-knu-blue px-4 py-2.5 text-sm font-semibold text-white"
       >
         Try again
       </button>

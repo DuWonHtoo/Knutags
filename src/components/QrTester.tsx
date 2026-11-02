@@ -69,7 +69,7 @@ export function QrTester({ defaultText, uppercaseDefault }: { defaultText: strin
             type="checkbox"
             checked={uppercase}
             onChange={(e) => setUppercase(e.target.checked)}
-            className="h-4 w-4 accent-slate-900"
+            className="h-4 w-4 accent-knu-blue"
           />
           Uppercase URL (smaller code; compare the module counts below)
         </label>
@@ -118,7 +118,7 @@ export function QrTester({ defaultText, uppercaseDefault }: { defaultText: strin
                           type="button"
                           onClick={() => setSelected({ ec, size })}
                           className={`inline-flex flex-col items-center gap-1 rounded-lg p-2 ${
-                            isSelected ? 'bg-slate-100 ring-2 ring-slate-900' : 'hover:bg-slate-50'
+                            isSelected ? 'bg-slate-100 ring-2 ring-knu-blue' : 'hover:bg-slate-50'
                           }`}
                           aria-label={`Select ${size} mm, level ${ec}`}
                         >

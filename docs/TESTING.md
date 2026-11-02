@@ -13,7 +13,7 @@ On each phone, open a private window (*Safari → Private*, *Chrome → New inco
 | # | Test | iPhone | Android |
 | --- | --- | --- | --- |
 | 1.1 | **Assigned** demo URL (e.g. Amara Okafor) shows the photo, name, title · organization and public fields. | ☐ | ☐ |
-| 1.2 | Hidden fields do **not** appear: Lukas Brandt has no photo, and nobody's emergency contact shows except Diego Ramírez's. | ☐ | ☐ |
+| 1.2 | Hidden fields do **not** appear: Lukas Brandt has no photo, and Mei Tanaka shows no phone or email. Ranks show as a badge above the name (Amara: Brigadier General). | ☐ | ☐ |
 | 1.3 | Tapping a phone number opens the dialer, an email opens the mail app, and a website opens in a new tab. | ☐ | ☐ |
 | 1.4 | **Unassigned** URL shows "Not set up yet" with no name or details. | ☐ | ☐ |
 | 1.5 | **Inactive** URL (Priya Nair's old tag) shows "No longer active". | ☐ | ☐ |

@@ -106,7 +106,7 @@ export default async function PersonPage({ params, searchParams }: Props) {
               </div>
               {tags.some((t) => t.status === 'assigned') ? (
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" name="deactivate_others" className="h-4 w-4 accent-slate-900" />
+                  <input type="checkbox" name="deactivate_others" className="h-4 w-4 accent-knu-blue" />
                   Deactivate their current tag(s) (replacement)
                 </label>
               ) : null}

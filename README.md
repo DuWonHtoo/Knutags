@@ -27,7 +27,7 @@ Laser-engraved QR tags that open a person's profile page.
 ## Assumptions made
 
 1. **Domain:** set in `PUBLIC_BASE_URL`. Buy a **short** domain before engraving. A shorter URL means fewer QR modules, so small codes are easier to scan. Every engraved tag depends on that domain forever, so keep auto-renew on.
-2. **Profile fields:** title, organization, phone, email, website, location, about and emergency contact. You can edit the list in `src/lib/fields.ts`; it's stored as JSON, so no database change is needed. Every field, including the name and photo, has its own **Public** checkbox. Phone, email, location and emergency contact start out hidden.
+2. **Profile fields:** rank (dropdown, highest first; the list is `RANKS` in `src/lib/fields.ts`), title, organization, phone, email, website, location and about. You can edit the fields in `src/lib/fields.ts`; they're stored as JSON, so no database change is needed. Every field, including the name and photo, has its own **Public** checkbox. Phone, email and location start out hidden.
 3. **Scale:** about 3,000 tags and people. Batches can hold up to 5,000 tags and imports up to 3,000 rows per file.
 4. **Tag IDs:** 7 characters from `23456789ABCDEFGHJKMNPQRSTUVWXYZ` (31 characters, with no 0, O, 1, I or L). That gives about 27.5 billion possible IDs, generated with the browser/Node crypto API (`crypto.getRandomValues`).
 5. **Admin:** one admin password. A login stays valid for 30 days per device.
@@ -113,6 +113,12 @@ Open http://localhost:3000/admin and log in with `ADMIN_PASSWORD`. The seed prin
 3. **Mark as engraved.** Void damaged pieces by entering their position number or ID.
 4. **Assign.** Log in to `/admin` once on your phone. Then scan a blank tag with the camera; it opens the assignment screen. Fill in the person's details, take or choose a photo, and save. The profile is live immediately.
 5. **Later.** Edit, deactivate, reassign, release or void tags from the tag screen or the person's page.
+
+## Design and credits
+
+- **Colors** follow the Karen (KNU) flag: blue `#1A3B85`, red `#DA251D` and white. They're defined as Tailwind theme colors (`knu-blue`, `knu-red`, …) in `src/app/globals.css`.
+- **Fonts:** Lexend (headings) and Source Sans 3 (text), self-hosted at build time with `next/font`.
+- **Karen flag artwork** (`src/components/KarenFlag.tsx`): "Flag of the Karen National Union" by Sshu94, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Flag_of_the_Karen_National_Union.svg), licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ## Security summary
 

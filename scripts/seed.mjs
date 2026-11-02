@@ -61,9 +61,9 @@ const PEOPLE = [
       website: 'northbridge.example.com',
       location: 'Denver, CO',
       bio: 'Responsible for safety inductions and first aid on site. Ask me about access permits.',
-      emergency_contact: 'Chidi Okafor (brother) +1 555 0111',
+      rank: 'Brigadier General',
     },
-    public_fields: ['full_name', 'photo', 'title', 'organization', 'phone', 'email', 'website', 'bio'],
+    public_fields: ['full_name', 'photo', 'rank', 'title', 'organization', 'phone', 'email', 'website', 'bio'],
   },
   {
     full_name: 'Lukas Brandt',
@@ -88,9 +88,9 @@ const PEOPLE = [
       phone: '+1 555 0103',
       email: 'mei@tanaka-surveying.example.com',
       website: 'https://tanaka-surveying.example.com',
-      emergency_contact: 'Hiro Tanaka (spouse) +1 555 0113',
+      rank: 'Captain',
     },
-    public_fields: ['full_name', 'photo', 'title', 'organization', 'website'],
+    public_fields: ['full_name', 'photo', 'rank', 'title', 'organization', 'website'],
   },
   {
     full_name: 'Diego Ramírez',
@@ -101,10 +101,10 @@ const PEOPLE = [
       phone: '+1 555 0104',
       location: 'Pueblo, CO',
       bio: 'Certified for mobile and tower cranes up to 120 t.',
-      emergency_contact: 'Lucía Ramírez (mother) +1 555 0114',
+      rank: 'Sergeant',
     },
-    // emergency contact public: e.g. for lone-worker tags
-    public_fields: ['full_name', 'photo', 'title', 'organization', 'phone', 'bio', 'emergency_contact'],
+    // phone public, website hidden
+    public_fields: ['full_name', 'photo', 'rank', 'title', 'organization', 'phone', 'bio'],
   },
   {
     full_name: 'Priya Nair',

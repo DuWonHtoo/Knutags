@@ -1,7 +1,7 @@
 // Profile fields. Edit this list to change what a profile contains — no database
 // change is needed (values are stored in people.details as JSON).
 
-export type FieldType = 'text' | 'tel' | 'email' | 'url' | 'textarea';
+export type FieldType = 'text' | 'tel' | 'email' | 'url' | 'textarea' | 'select';
 
 export interface ProfileField {
   key: string;
@@ -11,9 +11,31 @@ export interface ProfileField {
   defaultPublic: boolean;
   maxLength: number;
   placeholder?: string;
+  /** Allowed values for 'select' fields, in display order. */
+  options?: readonly string[];
 }
 
+/** Ranks offered in the admin dropdown, highest first. Edit freely; no database change needed. */
+export const RANKS: readonly string[] = [
+  'General',
+  'Lieutenant General',
+  'Major General',
+  'Brigadier General',
+  'Colonel',
+  'Lieutenant Colonel',
+  'Major',
+  'Captain',
+  'Lieutenant',
+  'Second Lieutenant',
+  'Warrant Officer',
+  'Sergeant',
+  'Corporal',
+  'Lance Corporal',
+  'Private',
+];
+
 export const PROFILE_FIELDS: readonly ProfileField[] = [
+  { key: 'rank', label: 'Rank', type: 'select', defaultPublic: true, maxLength: 60, options: RANKS },
   { key: 'title', label: 'Title / role', type: 'text', defaultPublic: true, maxLength: 120, placeholder: 'Site Manager' },
   { key: 'organization', label: 'Organization', type: 'text', defaultPublic: true, maxLength: 120, placeholder: 'Company name' },
   { key: 'phone', label: 'Phone', type: 'tel', defaultPublic: false, maxLength: 40, placeholder: '+1 555 0100' },
@@ -21,14 +43,6 @@ export const PROFILE_FIELDS: readonly ProfileField[] = [
   { key: 'website', label: 'Website', type: 'url', defaultPublic: true, maxLength: 300, placeholder: 'company.com' },
   { key: 'location', label: 'Location', type: 'text', defaultPublic: false, maxLength: 120, placeholder: 'City, Country' },
   { key: 'bio', label: 'About', type: 'textarea', defaultPublic: true, maxLength: 1000 },
-  {
-    key: 'emergency_contact',
-    label: 'Emergency contact',
-    type: 'text',
-    defaultPublic: false,
-    maxLength: 200,
-    placeholder: 'Name, relation, phone',
-  },
 ];
 
 /** The name and photo can be hidden too; they use these keys in public_fields. */

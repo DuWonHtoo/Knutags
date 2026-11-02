@@ -31,8 +31,12 @@ export function cleanPersonInput(input: {
 
   const details: Record<string, string> = {};
   for (const field of PROFILE_FIELDS) {
-    const value = clean(input.details[field.key]);
+    let value = clean(input.details[field.key]);
     if (!value) continue;
+    if (field.type === 'select' && field.options) {
+      // Accept any capitalisation (e.g. from a CSV import) and store the canonical spelling.
+      value = field.options.find((option) => option.toLowerCase() === value.toLowerCase()) ?? value;
+    }
     if (value.length > field.maxLength) {
       throw new UserError(`${field.label} is too long (max ${field.maxLength} characters).`);
     }
@@ -41,6 +45,9 @@ export function cleanPersonInput(input: {
     }
     if (field.type === 'url' && !fieldHref('url', value)) {
       throw new UserError(`${field.label} doesn't look like a web address.`);
+    }
+    if (field.type === 'select' && field.options && !field.options.includes(value)) {
+      throw new UserError(`${field.label} must be one of: ${field.options.join(', ')}.`);
     }
     if (field.type === 'tel' && !PHONE_REGEX.test(value)) {
       throw new UserError(`${field.label} may only contain digits, spaces and + ( ) - . /`);
